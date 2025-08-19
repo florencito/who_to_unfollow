@@ -18,10 +18,11 @@ export function validateFiles(files: FileList | File[]): FileValidationResult {
     f.name === 'following.json' || f.name.includes('following')
   );
 
-  // Buscar archivos followers_*.json
-  const followersFiles = fileArray.filter(f => 
-    f.name.startsWith('followers') && f.name.endsWith('.json')
-  );
+  // Buscar archivos followers_*.json (ser más específico)
+  const followersFiles = fileArray.filter(f => {
+    const fileName = f.name.split('/').pop() || f.name;
+    return fileName.startsWith('followers') && fileName.endsWith('.json');
+  });
 
   if (!followingFile) {
     return {

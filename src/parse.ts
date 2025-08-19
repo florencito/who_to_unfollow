@@ -125,11 +125,13 @@ export async function parseFilesFromZip(zipFile: File): Promise<Normalized> {
     console.log(`🔍 Analizando ZIP: ${zipFile.name} (${zipFile.size} bytes)`);
     const zip = await JSZip.loadAsync(zipFile);
     
-    // Mostrar todos los archivos del ZIP para debugging
-    console.log('📁 Archivos encontrados en el ZIP:');
-    Object.keys(zip.files).forEach(filename => {
-      console.log(`  - ${filename}`);
-    });
+    // Log de archivos en modo desarrollo
+    if (import.meta.env.DEV) {
+      console.log('📁 Archivos encontrados en el ZIP:');
+      Object.keys(zip.files).forEach(filename => {
+        console.log(`  - ${filename}`);
+      });
+    }
     
     // Buscar archivos en las rutas típicas de Instagram
     const possiblePaths = [
@@ -149,11 +151,12 @@ export async function parseFilesFromZip(zipFile: File): Promise<Normalized> {
         followingFile = zip.files[followingPath];
       }
       
-      // Buscar followers_*.json
+      // Buscar followers_*.json - ser más específico
       Object.keys(zip.files).forEach(filename => {
+        const baseFilename = filename.split('/').pop() || '';
         if (filename.startsWith(path) && 
-            filename.includes('followers') && 
-            filename.endsWith('.json') &&
+            baseFilename.startsWith('followers') &&
+            baseFilename.endsWith('.json') &&
             !followersFiles.some(f => f.name === filename)) {
           followersFiles.push(zip.files[filename]);
         }
@@ -197,15 +200,24 @@ export async function parseFilesFromZip(zipFile: File): Promise<Normalized> {
         const text = await file.async('text');
         const rawData = JSON.parse(text);
         
+        if (import.meta.env.DEV) {
+          console.log(`📂 Procesando archivo: ${file.name}`);
+          console.log(`  Tamaño del archivo: ${text.length} caracteres`);
+          console.log(`  Tipo de datos: ${typeof rawData}, Es array: ${Array.isArray(rawData)}`);
+        }
+        
         if (validateJsonStructure(rawData, file.name)) {
           // Extraer la lista correcta (para followers debería ser array directo)
           const data = extractFollowingList(rawData, file.name);
+          if (import.meta.env.DEV) {
+            console.log(`  ✅ Usuarios extraídos de ${file.name}: ${data.length}`);
+          }
           followersLists.push(data);
         } else {
-          console.warn(`Saltando archivo con estructura inválida: ${file.name}`);
+          console.warn(`❌ Saltando archivo con estructura inválida: ${file.name}`);
         }
       } catch (error) {
-        console.warn(`Error procesando ${file.name}:`, error);
+        console.warn(`❌ Error procesando ${file.name}:`, error);
       }
     }
     
@@ -217,6 +229,12 @@ export async function parseFilesFromZip(zipFile: File): Promise<Normalized> {
     const following = normalizeIGList(followingData);
     const mergedFollowers = mergeFollowersFiles(followersLists);
     const followers = normalizeIGList(mergedFollowers);
+    
+    console.log(`📊 RESUMEN FINAL:`);
+    console.log(`  👥 Following únicos: ${following.size}`);
+    console.log(`  👥 Followers únicos: ${followers.size}`);
+    console.log(`  📁 Total archivos de followers procesados: ${followersLists.length}`);
+    console.log(`  📋 Total entradas antes de normalizar: ${mergedFollowers.length}`);
     
     return { followers, following };
     
