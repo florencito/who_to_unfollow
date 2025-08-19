@@ -224,6 +224,18 @@ body {
 
 .help-content li {
   margin-bottom: var(--spacing-sm);
+  line-height: 1.5;
+}
+
+.help-content ul {
+  margin-top: var(--spacing-sm);
+  padding-left: var(--spacing-lg);
+}
+
+.help-content ul li {
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .help-content code {
@@ -232,6 +244,18 @@ body {
   border-radius: 4px;
   font-family: monospace;
   font-size: var(--font-size-sm);
+}
+
+.help-tip {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+  border: 1px solid #29b6f6;
+  border-left: 4px solid #0277bd;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  color: #01579b;
+  box-shadow: var(--shadow-sm);
 }
 
 /* Botones */
@@ -353,11 +377,13 @@ body {
 /* Results */
 .results-section {
   max-width: none;
+  margin-top: var(--spacing-2xl);
 }
 
 /* Stats */
 .stats-container {
   margin-bottom: var(--spacing-xl);
+  margin-top: var(--spacing-xl);
 }
 
 .stats-grid {

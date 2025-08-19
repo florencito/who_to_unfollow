@@ -16,11 +16,18 @@ Una aplicación web **100% privada** y local para analizar tus seguidores de Ins
 
 ### Paso 1: Obtén tus datos de Instagram
 
-1. Ve a **Instagram → Configuración → Privacidad → Descargar tus datos**
-2. Selecciona **"Descargar información"**
-3. Elige formato **JSON** y descarga
-4. Busca en el ZIP: `connections/followers_and_following/`
-5. Necesitas: `following.json` y `followers_*.json`
+1. Entra a **Instagram** (app o web)
+2. Ve a **Configuración → Centro de cuentas**
+3. Selecciona **"Tu información y permisos"**
+4. Toca **"Exportar tu información"**
+5. Elige **"Crear exportación"**
+6. Selecciona **"Exportar al dispositivo"**
+7. En **"Personalizar información"**: Deselecciona todo y deja solo **"Seguidores y seguidos"**
+8. En **"Intervalo de fechas"**: **"Desde el principio"**
+9. En **"Formato"**: Selecciona **JSON**
+10. Toca **"Iniciar exportación"**
+11. **Espera** a que te llegue el correo (15 minutos a 48 horas)
+12. Descarga el ZIP del enlace del correo
 
 ### Paso 2: Carga tus datos
 

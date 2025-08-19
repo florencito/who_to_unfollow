@@ -103,6 +103,12 @@ export class UIManager {
   private renderResults(): void {
     if (!this.state.data || !this.state.results) return;
 
+    // Ocultar welcome y mostrar resultados
+    const welcomeContainer = document.getElementById('welcome');
+    if (welcomeContainer) {
+      welcomeContainer.style.display = 'none';
+    }
+    
     this.elements.resultsContainer.style.display = 'block';
     this.renderStats();
     this.renderCurrentList();
@@ -266,6 +272,12 @@ export class UIManager {
     
     if (this.elements.searchInput) {
       this.elements.searchInput.value = '';
+    }
+    
+    // Mostrar welcome y ocultar resultados
+    const welcomeContainer = document.getElementById('welcome');
+    if (welcomeContainer) {
+      welcomeContainer.style.display = 'block';
     }
     
     this.elements.loadingIndicator.style.display = 'none';
