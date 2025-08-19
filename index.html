@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Aplicación para analizar quién no te sigue de vuelta en Instagram" />
+    <title>¿Quién no me sigue? - Instagram Analyzer</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <h1>📱 ¿Quién no me sigue?</h1>
+        <p class="app-subtitle">Analiza tus seguidores de Instagram de forma privada y local</p>
+      </header>
+
+      <main class="app-main">
+        <!-- Estado de bienvenida -->
+        <section id="welcome" class="welcome-section">
+          <div id="upload-area" class="upload-area">
+            <div class="upload-icon">📁</div>
+            <h2>Sube tus datos de Instagram</h2>
+            <p class="upload-instructions">
+              Arrastra y suelta aquí tu ZIP de Instagram o selecciona archivos JSON individuales
+            </p>
+            
+            <div class="upload-buttons">
+              <button id="load-zip" class="btn btn-primary">
+                📦 Cargar ZIP de Instagram
+              </button>
+              <button id="load-json" class="btn btn-secondary">
+                📄 Cargar JSONs individuales
+              </button>
+            </div>
+
+            <div class="upload-help">
+              <details>
+                <summary>¿Cómo obtener mis datos?</summary>
+                <div class="help-content">
+                  <ol>
+                    <li>Ve a <strong>Instagram → Configuración → Privacidad → Descargar tus datos</strong></li>
+                    <li>Selecciona <strong>"Descargar información"</strong></li>
+                    <li>Elige formato <strong>JSON</strong> y descarga</li>
+                    <li>Busca en el ZIP: <code>connections/followers_and_following/</code></li>
+                    <li>Necesitas: <code>following.json</code> y <code>followers_*.json</code></li>
+                  </ol>
+                </div>
+              </details>
+            </div>
+          </div>
+        </section>
+
+        <!-- Estado de carga -->
+        <section id="loading" class="loading-section" style="display: none;">
+          <div class="loading-spinner"></div>
+          <p>Procesando tus datos...</p>
+        </section>
+
+        <!-- Estado de error -->
+        <section id="error" class="error-section" style="display: none;">
+          <!-- El contenido se llenará dinámicamente -->
+        </section>
+
+        <!-- Resultados -->
+        <section id="results" class="results-section" style="display: none;">
+          <!-- Estadísticas -->
+          <div id="stats" class="stats-container">
+            <!-- Se llenará dinámicamente -->
+          </div>
+
+          <!-- Controles -->
+          <div class="controls">
+            <div class="search-container">
+              <input 
+                type="text" 
+                id="search" 
+                placeholder="Buscar usuario..." 
+                class="search-input"
+              />
+              <span class="search-icon">🔍</span>
+            </div>
+            
+            <div class="action-buttons">
+              <button id="export-current" class="btn btn-export">
+                💾 Exportar actual
+              </button>
+              <button id="copy-current" class="btn btn-copy">
+                📋 Copiar lista
+              </button>
+              <button id="export-all" class="btn btn-export-all">
+                📦 Exportar todo
+              </button>
+              <button id="reset" class="btn btn-reset">
+                🔄 Reiniciar
+              </button>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="tabs">
+            <button class="tab-button active" data-tab="notFollowingBack">
+              No me siguen <span class="tab-count">0</span>
+            </button>
+            <button class="tab-button" data-tab="mutuals">
+              Mutuos <span class="tab-count">0</span>
+            </button>
+            <button class="tab-button" data-tab="fans">
+              Fans <span class="tab-count">0</span>
+            </button>
+          </div>
+
+          <!-- Lista de usuarios -->
+          <div id="users-list" class="users-list">
+            <!-- Se llenará dinámicamente -->
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <div class="privacy-notice">
+          <p>
+            🔒 <strong>100% Privado:</strong> Todos los datos se procesan localmente en tu navegador. 
+            No se envía información a ningún servidor.
+          </p>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+            Código fuente
+          </a>
+          <span>•</span>
+          <span>Hecho con ❤️ para la privacidad</span>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Inputs ocultos para selección de archivos -->
+    <input type="file" id="zip-input" accept=".zip" style="display: none;" />
+    <input type="file" id="json-input" accept=".json" multiple style="display: none;" />
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
