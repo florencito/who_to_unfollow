@@ -3,7 +3,11 @@ import { parseFilesFromFiles, parseFilesFromZip } from './parse';
 import { computeResults } from './logic';
 import { validateFiles } from './validate';
 import { exportAllToZip } from './export';
+import { inject } from '@vercel/analytics';
 import './styles.css';
+
+// Inicializar Vercel Analytics
+inject();
 
 /**
  * Aplicación principal para analizar followers de Instagram
