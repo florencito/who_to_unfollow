@@ -4,21 +4,143 @@ import { computeResults } from './logic';
 import { validateFiles } from './validate';
 import { exportAllToZip } from './export';
 import { inject } from '@vercel/analytics';
+import { createHeader, initHeaderAnimations } from './components/header';
+import { createFooter, initFooterFunctions } from './components/footer';
 import './styles.css';
 
-// Inicializar Vercel Analytics
+// Initialize Vercel Analytics
 inject();
 
 /**
- * Aplicación principal para analizar followers de Instagram
+ * Main Instagram Analyzer Application with florenApps design system
  */
 class InstagramAnalyzer {
   private ui: UIManager;
+  private isLoaded: boolean = false;
 
   constructor() {
     this.ui = new UIManager();
-    this.initializeEventListeners();
-    this.showWelcome();
+    this.init();
+  }
+
+  private async init(): Promise<void> {
+    // Show loading state
+    this.showGlobalLoading();
+
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.render());
+    } else {
+      this.render();
+    }
+  }
+
+  private showGlobalLoading(): void {
+    const loading = document.getElementById('global-loading');
+    if (loading) {
+      loading.style.display = 'flex';
+    }
+  }
+
+  private hideGlobalLoading(): void {
+    const loading = document.getElementById('global-loading');
+    if (loading) {
+      loading.style.opacity = '0';
+      setTimeout(() => {
+        loading.style.display = 'none';
+      }, 300);
+    }
+  }
+
+  private async render(): Promise<void> {
+    try {
+      // Initialize component functions
+      initFooterFunctions();
+      
+      // Render components
+      this.renderHeader();
+      this.renderFooter();
+
+      // Initialize original functionality
+      this.initializeEventListeners();
+      this.showWelcome();
+
+      // Initialize animations and interactions
+      setTimeout(() => {
+        this.initAnimations();
+        this.hideGlobalLoading();
+        this.showContent();
+      }, 500);
+
+      // Track page view
+      this.trackPageView();
+
+    } catch (error) {
+      console.error('Error rendering app:', error);
+      this.showError('Failed to load the application. Please refresh the page.');
+    }
+  }
+
+  private renderHeader(): void {
+    const headerElement = document.getElementById('header');
+    if (headerElement) {
+      headerElement.innerHTML = createHeader();
+    }
+  }
+
+  private renderFooter(): void {
+    const footerElement = document.getElementById('footer');
+    if (footerElement) {
+      footerElement.innerHTML = createFooter();
+    }
+  }
+
+  private showContent(): void {
+    const elements = ['header', 'main', 'footer'];
+    elements.forEach((id, index) => {
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.style.opacity = '1';
+          element.classList.add('animate-fade-in');
+        }, index * 200);
+      }
+    });
+  }
+
+  private initAnimations(): void {
+    // Initialize header animations
+    initHeaderAnimations();
+
+    // Add scroll-based animations
+    this.initScrollAnimations();
+  }
+
+  private initScrollAnimations(): void {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-slide-up');
+        }
+      });
+    }, observerOptions);
+
+    // Observe elements that should animate on scroll
+    document.querySelectorAll('.card, .stats-card').forEach(el => {
+      observer.observe(el);
+    });
+  }
+
+  private trackPageView(): void {
+    // Track page view with Vercel Analytics
+    if ((window as any).va) {
+      (window as any).va('track', 'Page View', { page: 'Instagram Analyzer' });
+    }
   }
 
   private initializeEventListeners(): void {

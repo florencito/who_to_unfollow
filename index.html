@@ -1,64 +1,128 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Who to Unfollow — Instagram follower analyzer</title>
+    <meta name="title" content="Who to Unfollow — Instagram follower analyzer" />
+    <meta name="description" content="Analyze your Instagram followers privately. Find who doesn't follow back, mutual followers, and fans. 100% client-side processing. Part of florenApps." />
+    <meta name="keywords" content="instagram, followers, unfollow, analytics, privacy-friendly, social media analysis" />
+    <meta name="author" content="Floren" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://unfollow.florenapps.online/" />
+    <meta property="og:title" content="Who to Unfollow — Instagram follower analyzer" />
+    <meta property="og:description" content="Analyze your Instagram followers privately. Find who doesn't follow back, mutual followers, and fans. 100% client-side processing. Part of florenApps." />
+    <meta property="og:image" content="/og-unfollow.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://unfollow.florenapps.online/" />
+    <meta property="twitter:title" content="Who to Unfollow — Instagram follower analyzer" />
+    <meta property="twitter:description" content="Analyze your Instagram followers privately. Find who doesn't follow back, mutual followers, and fans. 100% client-side processing. Part of florenApps." />
+    <meta property="twitter:image" content="/og-unfollow.png" />
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-    <meta name="description" content="Aplicación para analizar quién no te sigue de vuelta en Instagram" />
-    <title>¿Quién no me sigue? - Instagram Analyzer</title>
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Theme -->
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="color-scheme" content="light" />
+    
+    <!-- Performance -->
+    <link rel="preload" href="/src/main.ts" as="script" crossorigin />
+    
+    <!-- Vercel Analytics -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
   </head>
-  <body>
-    <div id="app">
-      <header class="app-header">
-        <h1>📱 ¿Quién no me sigue?</h1>
-        <p class="app-subtitle">Analiza tus seguidores de Instagram de forma privada y local</p>
-      </header>
 
-      <main class="app-main">
-        <!-- Estado de bienvenida -->
-        <section id="welcome" class="welcome-section">
-          <div id="upload-area" class="upload-area">
-            <div class="upload-icon">📁</div>
-            <h2>Sube tus datos de Instagram</h2>
-            <p class="upload-instructions">
-              Arrastra y suelta aquí tu ZIP de Instagram o selecciona archivos JSON individuales
+<body class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100 font-sans antialiased">
+  <!-- Main App Container -->
+  <div id="app" class="min-h-screen flex flex-col">
+    <!-- Loading State -->
+    <div id="global-loading" class="fixed inset-0 bg-white flex items-center justify-center z-50" style="display: none;">
+      <div class="flex flex-col items-center">
+        <div class="w-8 h-8 border-4 border-primary-200 border-t-primary-500 rounded-full animate-spin"></div>
+        <p class="mt-4 text-gray-600 animate-pulse">Loading Instagram Analyzer...</p>
+      </div>
+    </div>
+    
+    <!-- Header will be rendered here -->
+    <header id="header" class="opacity-0"></header>
+    
+    <!-- Main Content -->
+    <main id="main" class="flex-1 opacity-0">
+      <div class="container mx-auto px-4 pb-12">
+        
+        <!-- Welcome Section -->
+        <section id="welcome" class="max-w-4xl mx-auto">
+          <div id="upload-area" class="upload-area text-center animate-slide-up">
+            <div class="text-6xl mb-6 animate-float">📁</div>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Upload your Instagram data</h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+              Drop your Instagram ZIP file here or select JSON files individually
             </p>
             
-            <div class="upload-buttons">
-              <button id="load-zip" class="btn btn-primary">
-                <span>📦</span> Cargar ZIP de Instagram
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <button id="load-zip" class="btn-instagram focus-ring">
+                <span>📦</span> Load Instagram ZIP
               </button>
-              <button id="load-json" class="btn btn-secondary">
-                <span>📄</span> Cargar JSONs individuales
+              <button id="load-json" class="btn-secondary focus-ring">
+                <span>📄</span> Load JSON files
               </button>
             </div>
 
-            <div class="upload-help">
-              <details>
-                <summary>¿Cómo obtener mis datos?</summary>
-                <div class="help-content">
-                  <ol>
-                    <li>Entra a <strong>Instagram</strong> (app o web)</li>
-                    <li>Ve a <strong>Configuración → Centro de cuentas</strong></li>
-                    <li>Selecciona <strong>"Tu información y permisos"</strong></li>
-                    <li>Toca <strong>"Exportar tu información"</strong></li>
-                    <li>Elige <strong>"Crear exportación"</strong></li>
-                    <li>Selecciona <strong>"Exportar al dispositivo"</strong></li>
-                    <li>En <strong>"Personalizar información"</strong>:
-                      <ul>
-                        <li>Deselecciona todo</li>
-                        <li>Deja solo <strong>"Seguidores y seguidos"</strong> ✓</li>
-                      </ul>
-                    </li>
-                    <li>En <strong>"Intervalo de fechas"</strong>: <strong>"Desde el principio"</strong></li>
-                    <li>En <strong>"Formato"</strong>: Selecciona <strong>JSON</strong></li>
-                    <li>Toca <strong>"Iniciar exportación"</strong></li>
-                    <li><strong>Espera</strong> a que te llegue el correo (puede tardar unas horas)</li>
-                    <li>Descarga el ZIP del enlace del correo</li>
-                    <li>¡Arrastra el ZIP aquí y analiza! 🎉</li>
-                  </ol>
-                  <div class="help-tip">
-                    <strong>💡 Tip:</strong> El proceso puede tardar entre 15 minutos y 48 horas dependiendo de la cantidad de datos. ¡Ten paciencia!
+            <div class="max-w-3xl mx-auto text-left">
+              <details class="card p-6">
+                <summary class="cursor-pointer text-primary-600 font-semibold hover:text-primary-700 transition-colors duration-200">
+                  📚 How to get your Instagram data?
+                </summary>
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                  <div class="prose prose-sm max-w-none">
+                    <ol class="space-y-3 text-gray-700">
+                      <li><strong>Open Instagram</strong> (app or web)</li>
+                      <li>Go to <strong>Settings → Accounts Center</strong></li>
+                      <li>Select <strong>"Your information and permissions"</strong></li>
+                      <li>Tap <strong>"Download your information"</strong></li>
+                      <li>Choose <strong>"Request a download"</strong></li>
+                      <li>Select <strong>"Download to device"</strong></li>
+                      <li>In <strong>"Select information"</strong>:
+                        <ul class="ml-4 mt-2 space-y-1">
+                          <li>• Uncheck everything</li>
+                          <li>• Only check <strong>"Followers and following"</strong> ✓</li>
+                        </ul>
+                      </li>
+                      <li>In <strong>"Date range"</strong>: Select <strong>"All time"</strong></li>
+                      <li>In <strong>"Format"</strong>: Select <strong>JSON</strong></li>
+                      <li>Tap <strong>"Submit request"</strong></li>
+                      <li><strong>Wait</strong> for the email (can take hours)</li>
+                      <li>Download the ZIP from the email link</li>
+                      <li>Drag the ZIP here and analyze! 🎉</li>
+                    </ol>
+                    <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                      <div class="flex items-start">
+                        <span class="text-2xl mr-3">💡</span>
+                        <div>
+                          <p class="font-semibold text-blue-800 mb-1">Pro tip:</p>
+                          <p class="text-blue-700 text-sm">
+                            The process can take between 15 minutes and 48 hours depending on your data size. Be patient!
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </details>
@@ -66,87 +130,106 @@
           </div>
         </section>
 
-        <!-- Estado de carga -->
-        <section id="loading" class="loading-section" style="display: none;">
-          <div class="loading-spinner"></div>
-          <p>Procesando tus datos...</p>
+        <!-- Loading Section -->
+        <section id="loading" class="text-center py-16" style="display: none;">
+          <div class="loading-spinner mx-auto mb-6"></div>
+          <p class="text-xl text-gray-600">Processing your data...</p>
+          <p class="text-sm text-gray-500 mt-2">This may take a few moments</p>
         </section>
 
-        <!-- Estado de error -->
-        <section id="error" class="error-section" style="display: none;">
-          <!-- El contenido se llenará dinámicamente -->
+        <!-- Error Section -->
+        <section id="error" class="max-w-2xl mx-auto" style="display: none;">
+          <div class="card p-8 text-center border-red-200 bg-red-50">
+            <div class="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+              <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div id="error-content">
+              <!-- Error content will be filled dynamically -->
+            </div>
+          </div>
         </section>
 
-        <!-- Resultados -->
-        <section id="results" class="results-section" style="display: none;">
-          <!-- Estadísticas -->
-          <div id="stats" class="stats-container">
-            <!-- Se llenará dinámicamente -->
+        <!-- Results Section -->
+        <section id="results" class="max-w-7xl mx-auto" style="display: none;">
+          <!-- Stats Container -->
+          <div id="stats" class="mb-8">
+            <!-- Stats will be filled dynamically -->
           </div>
 
-          <!-- Controles -->
-          <div class="controls">
-            <div class="search-container">
+          <!-- Controls -->
+          <div class="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between mb-8">
+            <div class="relative flex-1 max-w-md">
               <input 
                 type="text" 
                 id="search" 
-                placeholder="Buscar usuario..." 
-                class="search-input"
+                placeholder="Search user..." 
+                class="input-field pr-10"
               />
-              <span class="search-icon">🔍</span>
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
             </div>
             
-            <div class="action-buttons">
-              <button id="export-current" class="btn btn-export">
-                <span>💾</span> Exportar actual
+            <div class="flex flex-wrap gap-2">
+              <button id="export-current" class="btn-export focus-ring">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m-6 4H6a2 2 0 01-2-2V7a2 2 0 012-2h8a2 2 0 012 2v1"></path>
+                </svg>
+                Export
               </button>
-              <button id="copy-current" class="btn btn-copy">
-                <span>📋</span> Copiar lista
+              <button id="copy-current" class="btn-copy focus-ring">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                Copy
               </button>
-              <button id="export-all" class="btn btn-export-all">
-                <span>📦</span> Exportar todo
+              <button id="export-all" class="btn-secondary focus-ring">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Export All
               </button>
-              <button id="reset" class="btn btn-reset">
-                <span>🔄</span> Reiniciar
+              <button id="reset" class="btn-reset focus-ring">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Reset
               </button>
             </div>
           </div>
 
           <!-- Tabs -->
-          <div class="tabs">
-            <button class="tab-button active" data-tab="notFollowingBack">
-              No me siguen <span class="tab-count">0</span>
-            </button>
-            <button class="tab-button" data-tab="mutuals">
-              Mutuos <span class="tab-count">0</span>
-            </button>
-            <button class="tab-button" data-tab="fans">
-              Fans <span class="tab-count">0</span>
-            </button>
+          <div class="border-b border-gray-200 mb-6">
+            <nav class="flex space-x-8">
+              <button class="tab-button active focus-ring" data-tab="notFollowingBack">
+                Don't follow back
+                <span class="tab-count">0</span>
+              </button>
+              <button class="tab-button focus-ring" data-tab="mutuals">
+                Mutual followers
+                <span class="tab-count">0</span>
+              </button>
+              <button class="tab-button focus-ring" data-tab="fans">
+                Your fans
+                <span class="tab-count">0</span>
+              </button>
+            </nav>
           </div>
 
-          <!-- Lista de usuarios -->
-          <div id="users-list" class="users-list">
-            <!-- Se llenará dinámicamente -->
+          <!-- Users List -->
+          <div id="users-list" class="card p-6 min-h-[400px]">
+            <!-- Users will be filled dynamically -->
           </div>
         </section>
-      </main>
-
-      <footer class="app-footer">
-        <div class="privacy-notice">
-          <p>
-            🔒 <strong>100% Privado:</strong> Todos los datos se procesan localmente en tu navegador. 
-            No se envía información a ningún servidor.
-          </p>
-        </div>
-        <div class="footer-links">
-          <a href="https://github.com/florencito/who_to_unfollow" target="_blank" rel="noopener noreferrer">
-            Código fuente
-          </a>
-          <span>•</span>
-          <span>Hecho con ❤️ para la privacidad</span>
-        </div>
-      </footer>
+      </div>
+    </main>
+    
+    <!-- Footer will be rendered here -->
+    <footer id="footer" class="opacity-0"></footer>
     </div>
 
     <!-- Inputs ocultos para selección de archivos -->
