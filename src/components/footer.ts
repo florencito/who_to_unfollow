@@ -47,7 +47,7 @@ export function createFooter(): string {
 
           <!-- Links -->
           <div class="flex flex-wrap justify-center items-center gap-6 mb-6 text-sm">
-            <a href="https://florenapps.com" class="text-primary-600 hover:text-primary-700 font-medium transition-colors duration-200">
+            <a href="https://florenapps.online" class="text-primary-600 hover:text-primary-700 font-medium transition-colors duration-200">
               🏠 florenApps Hub
             </a>
             <a href="https://qr.florenapps.online" class="text-gray-600 hover:text-primary-600 transition-colors duration-200">

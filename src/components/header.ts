@@ -56,7 +56,7 @@ export function createHeader(): string {
         <!-- Back to Hub Link -->
         <div class="animate-slide-up stagger-delay-4 mb-4">
           <a 
-            href="https://florenapps.com" 
+            href="https://florenapps.online" 
             class="inline-flex items-center text-sm text-gray-500 hover:text-primary-600 transition-colors duration-200"
           >
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
