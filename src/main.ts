@@ -16,7 +16,6 @@ inject();
  */
 class InstagramAnalyzer {
   private ui: UIManager;
-  private isLoaded: boolean = false;
 
   constructor() {
     this.ui = new UIManager();
@@ -326,6 +325,11 @@ class InstagramAnalyzer {
     hideOnLoad.forEach(el => {
       (el as HTMLElement).style.display = 'none';
     });
+  }
+
+  private showError(message: string): void {
+    this.ui.setError(message);
+    this.hideGlobalLoading();
   }
 }
 

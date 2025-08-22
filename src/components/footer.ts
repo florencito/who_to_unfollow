@@ -125,7 +125,8 @@ export function initFooterFunctions(): void {
   // Add any footer-specific interactions here
   // For now, just basic link analytics tracking
   document.addEventListener('click', (e) => {
-    const link = e.target?.closest('a') as HTMLAnchorElement;
+    const target = e.target as HTMLElement;
+    const link = target?.closest('a') as HTMLAnchorElement;
     if (link && link.href && (window as any).va) {
       const linkText = link.textContent?.trim();
       if (linkText && !linkText.includes('github.com')) {
