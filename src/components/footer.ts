@@ -56,7 +56,7 @@ export function createFooter(): string {
             <a href="https://drinkmaster.florenapps.online" class="text-gray-600 hover:text-primary-600 transition-colors duration-200">
               🍻 DrinkMaster
             </a>
-            <a href="https://github.com/floren/florenapps-hub/issues" class="text-gray-600 hover:text-primary-600 transition-colors duration-200">
+            <a href="https://github.com/florencito/florenapps/issues" class="text-gray-600 hover:text-primary-600 transition-colors duration-200">
               💡 Suggest Feature
             </a>
           </div>
@@ -101,7 +101,7 @@ export function createFooter(): string {
           <div class="border-t border-gray-200/50 pt-6">
             <p class="text-xs text-gray-500">
               © 2024 florenApps. Made with ❤️ by 
-              <a href="https://github.com/floren" class="text-primary-600 hover:text-primary-700 font-medium">
+              <a href="https://github.com/florencito" class="text-primary-600 hover:text-primary-700 font-medium">
                 Floren
               </a>
               . Privacy-friendly mini apps.
