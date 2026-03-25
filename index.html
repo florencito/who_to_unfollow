@@ -56,7 +56,7 @@
     <div id="global-loading" class="fixed inset-0 bg-white flex items-center justify-center z-50" style="display: none;">
       <div class="flex flex-col items-center">
         <div class="w-8 h-8 border-4 border-primary-200 border-t-primary-500 rounded-full animate-spin"></div>
-        <p class="mt-4 text-gray-600 animate-pulse">Loading Instagram Analyzer...</p>
+        <p class="mt-4 text-gray-600 animate-pulse" data-i18n="loadingAnalyzer">Loading Instagram Analyzer...</p>
       </div>
     </div>
     
@@ -71,53 +71,55 @@
         <section id="welcome" class="max-w-4xl mx-auto">
           <div id="upload-area" class="upload-area text-center animate-slide-up">
             <div class="text-6xl mb-6 animate-float">📁</div>
-            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Upload your Instagram data</h2>
-            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4" data-i18n="uploadDataTitle">Upload your Instagram data</h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto" data-i18n="uploadDataDesc">
               Drop your Instagram ZIP file here or select JSON files individually
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <button id="load-zip" class="btn-instagram focus-ring">
+              <button id="load-zip" class="btn-instagram focus-ring" data-i18n="loadZip">
                 <span>📦</span> Load Instagram ZIP
               </button>
-              <button id="load-json" class="btn-secondary focus-ring">
+              <button id="load-json" class="btn-secondary focus-ring" data-i18n="loadJson">
                 <span>📄</span> Load JSON files
               </button>
             </div>
 
             <div class="max-w-3xl mx-auto text-left">
               <details class="card p-6">
-                <summary class="cursor-pointer text-primary-600 font-semibold hover:text-primary-700 transition-colors duration-200">
+                <summary class="cursor-pointer text-primary-600 font-semibold hover:text-primary-700 transition-colors duration-200" data-i18n="howToGet">
                   📚 How to get your Instagram data?
                 </summary>
                 <div class="mt-4 pt-4 border-t border-gray-200">
                   <div class="prose prose-sm max-w-none">
-                    <ol class="space-y-3 text-gray-700">
-                      <li><strong>Open Instagram</strong> (app or web)</li>
-                      <li>Go to <strong>Settings → Accounts Center</strong></li>
-                      <li>Select <strong>"Your information and permissions"</strong></li>
-                      <li>Tap <strong>"Download your information"</strong></li>
-                      <li>Choose <strong>"Request a download"</strong></li>
-                      <li>Select <strong>"Download to device"</strong></li>
-                      <li>In <strong>"Select information"</strong>:
-                        <ul class="ml-4 mt-2 space-y-1">
-                          <li>• Uncheck everything</li>
-                          <li>• Only check <strong>"Followers and following"</strong> ✓</li>
-                        </ul>
-                      </li>
-                      <li>In <strong>"Date range"</strong>: Select <strong>"All time"</strong></li>
-                      <li>In <strong>"Format"</strong>: Select <strong>JSON</strong></li>
-                      <li>Tap <strong>"Submit request"</strong></li>
-                      <li><strong>Wait</strong> for the email (can take hours)</li>
-                      <li>Download the ZIP from the email link</li>
-                      <li>Drag the ZIP here and analyze! 🎉</li>
-                    </ol>
+                    <div data-i18n="howToSteps">
+                      <ol class="space-y-3 text-gray-700">
+                        <li><strong>Open Instagram</strong> (app or web)</li>
+                        <li>Go to <strong>Settings → Accounts Center</strong></li>
+                        <li>Select <strong>"Your information and permissions"</strong></li>
+                        <li>Tap <strong>"Download your information"</strong></li>
+                        <li>Choose <strong>"Request a download"</strong></li>
+                        <li>Select <strong>"Download to device"</strong></li>
+                        <li>In <strong>"Select information"</strong>:
+                          <ul class="ml-4 mt-2 space-y-1">
+                            <li>• Uncheck everything</li>
+                            <li>• Only check <strong>"Followers and following"</strong> ✓</li>
+                          </ul>
+                        </li>
+                        <li>In <strong>"Date range"</strong>: Select <strong>"All time"</strong></li>
+                        <li>In <strong>"Format"</strong>: Select <strong>JSON</strong></li>
+                        <li>Tap <strong>"Submit request"</strong></li>
+                        <li><strong>Wait</strong> for the email (can take hours)</li>
+                        <li>Download the ZIP from the email link</li>
+                        <li>Drag the ZIP here and analyze! 🎉</li>
+                      </ol>
+                    </div>
                     <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                       <div class="flex items-start">
                         <span class="text-2xl mr-3">💡</span>
                         <div>
-                          <p class="font-semibold text-blue-800 mb-1">Pro tip:</p>
-                          <p class="text-blue-700 text-sm">
+                          <p class="font-semibold text-blue-800 mb-1" data-i18n="proTip">Pro tip:</p>
+                          <p class="text-blue-700 text-sm" data-i18n="proTipDesc">
                             The process can take between 15 minutes and 48 hours depending on your data size. Be patient!
                           </p>
                         </div>
@@ -133,8 +135,8 @@
         <!-- Loading Section -->
         <section id="loading" class="text-center py-16" style="display: none;">
           <div class="loading-spinner mx-auto mb-6"></div>
-          <p class="text-xl text-gray-600">Processing your data...</p>
-          <p class="text-sm text-gray-500 mt-2">This may take a few moments</p>
+          <p class="text-xl text-gray-600" data-i18n="processingData">Processing your data...</p>
+          <p class="text-sm text-gray-500 mt-2" data-i18n="takeMoments">This may take a few moments</p>
         </section>
 
         <!-- Error Section -->
@@ -166,6 +168,7 @@
                 id="search" 
                 placeholder="Search user..." 
                 class="input-field pr-10"
+                data-i18n="searchPlaceholder"
               />
               <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -179,25 +182,25 @@
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m-6 4H6a2 2 0 01-2-2V7a2 2 0 012-2h8a2 2 0 012 2v1"></path>
                 </svg>
-                Export
+                <span data-i18n="exportBtn">Export</span>
               </button>
               <button id="copy-current" class="btn-copy focus-ring">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                 </svg>
-                Copy
+                <span data-i18n="copyBtn">Copy</span>
               </button>
               <button id="export-all" class="btn-secondary focus-ring">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                 </svg>
-                Export All
+                <span data-i18n="exportAllBtn">Export All</span>
               </button>
               <button id="reset" class="btn-reset focus-ring">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                 </svg>
-                Reset
+                <span data-i18n="resetBtn">Reset</span>
               </button>
             </div>
           </div>
@@ -206,15 +209,15 @@
           <div class="border-b border-gray-200 mb-6">
             <nav class="flex space-x-8">
               <button class="tab-button active focus-ring" data-tab="notFollowingBack">
-                Don't follow back
+                <span data-i18n="tabNotFollowingBack">Don't follow back</span>
                 <span class="tab-count">0</span>
               </button>
               <button class="tab-button focus-ring" data-tab="mutuals">
-                Mutual followers
+                <span data-i18n="tabMutuals">Mutual followers</span>
                 <span class="tab-count">0</span>
               </button>
               <button class="tab-button focus-ring" data-tab="fans">
-                Your fans
+                <span data-i18n="tabFans">Your fans</span>
                 <span class="tab-count">0</span>
               </button>
             </nav>

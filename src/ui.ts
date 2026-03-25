@@ -1,6 +1,7 @@
 import type { AppState, Results } from './types';
 import { filterUsers, formatNumber, getStatsSummary } from './logic';
 import { exportNotFollowingBack, exportMutuals, exportFans, copyToClipboard } from './export';
+import { t } from './i18n';
 
 /**
  * Gestiona el estado de la aplicación
@@ -124,23 +125,23 @@ export class UIManager {
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8 animate-slide-up">
         <div class="stats-card">
           <div class="stats-number text-blue-600">${formatNumber(stats.totalFollowing)}</div>
-          <div class="stats-label">Following</div>
+          <div class="stats-label">${t('statsFollowing')}</div>
         </div>
         <div class="stats-card">
           <div class="stats-number text-green-600">${formatNumber(stats.totalFollowers)}</div>
-          <div class="stats-label">Followers</div>
+          <div class="stats-label">${t('statsFollowers')}</div>
         </div>
         <div class="stats-card border-pink-200 bg-pink-50">
           <div class="stats-number text-pink-600">${formatNumber(stats.notFollowingBack)}</div>
-          <div class="stats-label">Don't follow back</div>
+          <div class="stats-label">${t('statsNotFollowing')}</div>
         </div>
         <div class="stats-card">
           <div class="stats-number text-purple-600">${formatNumber(stats.mutuals)}</div>
-          <div class="stats-label">Mutual</div>
+          <div class="stats-label">${t('statsMutuals')}</div>
         </div>
         <div class="stats-card">
           <div class="stats-number text-indigo-600">${formatNumber(stats.fans)}</div>
-          <div class="stats-label">Your fans</div>
+          <div class="stats-label">${t('statsFans')}</div>
         </div>
       </div>
     `;
@@ -160,11 +161,11 @@ export class UIManager {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
             </svg>
           </div>
-          <h3 class="text-lg font-medium text-gray-900 mb-2">No users found</h3>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">${t('noUsersFound')}</h3>
           <p class="text-gray-500">
             ${this.state.searchTerm 
-              ? `No users match \"${this.state.searchTerm}\"` 
-              : 'No users in this category'}
+              ? `${t('noUsersMatch')} \"${this.state.searchTerm}\"` 
+              : t('noUsersCategory')}
           </p>
         </div>
       `;
@@ -196,8 +197,8 @@ export class UIManager {
       `).join('');
 
     const showingText = filteredUsers.length > 1000 
-      ? `Showing first 1,000 of ${formatNumber(filteredUsers.length)} users`
-      : `${formatNumber(filteredUsers.length)} user${filteredUsers.length !== 1 ? 's' : ''}`;
+      ? `${t('showingFirst')} ${formatNumber(filteredUsers.length)} ${t('users')}`
+      : `${formatNumber(filteredUsers.length)} ${filteredUsers.length !== 1 ? t('users') : t('user')}`;
 
     this.elements.usersList.innerHTML = `
       <div class="mb-4 px-2">
@@ -244,13 +245,13 @@ export class UIManager {
       // Update button counts
       if (tab === 'notFollowingBack') {
         const count = this.state.results!.notFollowingBack.length;
-        button.innerHTML = `Don't follow back <span class=\"tab-count\">${formatNumber(count)}</span>`;
+        button.innerHTML = `<span data-i18n="tabNotFollowingBack">${t('tabNotFollowingBack')}</span> <span class=\"tab-count\">${formatNumber(count)}</span>`;
       } else if (tab === 'mutuals') {
         const count = this.state.results!.mutuals.length;
-        button.innerHTML = `Mutual followers <span class=\"tab-count\">${formatNumber(count)}</span>`;
+        button.innerHTML = `<span data-i18n="tabMutuals">${t('tabMutuals')}</span> <span class=\"tab-count\">${formatNumber(count)}</span>`;
       } else if (tab === 'fans') {
         const count = this.state.results!.fans.length;
-        button.innerHTML = `Your fans <span class=\"tab-count\">${formatNumber(count)}</span>`;
+        button.innerHTML = `<span data-i18n="tabFans">${t('tabFans')}</span> <span class=\"tab-count\">${formatNumber(count)}</span>`;
       }
     });
   }
@@ -300,5 +301,13 @@ export class UIManager {
     this.elements.loadingIndicator.style.display = 'none';
     this.elements.errorContainer.style.display = 'none';
     this.elements.resultsContainer.style.display = 'none';
+  }
+
+  public updateDynamicTranslations(): void {
+    if (this.state.data && this.state.results) {
+      this.renderStats();
+      this.renderCurrentList();
+      this.updateTabButtons();
+    }
   }
 }

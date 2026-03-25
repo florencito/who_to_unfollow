@@ -6,6 +6,7 @@ import { exportAllToZip } from './export';
 import { inject } from '@vercel/analytics';
 import { createHeader, initHeaderAnimations } from './components/header';
 import { createFooter, initFooterFunctions } from './components/footer';
+import { initLanguage, setLanguage } from './i18n';
 import './styles.css';
 
 // Initialize Vercel Analytics
@@ -59,6 +60,9 @@ class InstagramAnalyzer {
       // Render components
       this.renderHeader();
       this.renderFooter();
+
+      // Initialize language (after header/footer in DOM)
+      initLanguage();
 
       // Initialize original functionality
       this.initializeEventListeners();
@@ -143,6 +147,18 @@ class InstagramAnalyzer {
   }
 
   private initializeEventListeners(): void {
+    // Language toggles
+    const langEs = document.getElementById('lang-es');
+    const langEn = document.getElementById('lang-en');
+    langEs?.addEventListener('click', () => {
+      setLanguage('es');
+      this.ui.updateDynamicTranslations(); // Need to update dynamically rendered texts
+    });
+    langEn?.addEventListener('click', () => {
+      setLanguage('en');
+      this.ui.updateDynamicTranslations(); // Need to update dynamically rendered texts
+    });
+
     // Botón para cargar ZIP
     const zipButton = document.getElementById('load-zip') as HTMLButtonElement;
     const zipInput = document.getElementById('zip-input') as HTMLInputElement;
