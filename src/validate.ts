@@ -71,12 +71,19 @@ export function validateJsonStructure(data: unknown, filename: string): boolean 
     }
     
     // Validar que al menos algunos elementos tengan la estructura esperada
-    const validItems = list.filter(item => 
-      item.string_list_data && 
-      Array.isArray(item.string_list_data) &&
-      item.string_list_data.length > 0 &&
-      typeof item.string_list_data[0].value === 'string'
-    );
+    const validItems = list.filter(item => {
+      const isOldFormat = item.string_list_data && 
+        Array.isArray(item.string_list_data) &&
+        item.string_list_data.length > 0 &&
+        typeof item.string_list_data[0].value === 'string';
+        
+      const isNewFormat = typeof item.title === 'string' &&
+        item.string_list_data && 
+        Array.isArray(item.string_list_data) &&
+        item.string_list_data.length > 0;
+        
+      return isOldFormat || isNewFormat;
+    });
 
     if (validItems.length === 0) {
       console.warn(`${filename}: Estructura inesperada - no hay elementos válidos`);

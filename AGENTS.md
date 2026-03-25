@@ -72,7 +72,8 @@ ig-nome-sigue/
 ## 6) Contratos de datos
 ```ts
 export type IGRow = {
-  string_list_data?: Array<{ value: string; href?: string; timestamp?: number }>;
+  title?: string;
+  string_list_data?: Array<{ value?: string; href?: string; timestamp?: number }>;
 };
 export type IGList = IGRow[];
 export type Normalized = { followers: Set<string>; following: Set<string>; };

@@ -130,9 +130,10 @@ connections/followers_and_following/
 ```json
 [
   {
+    "title": "username",
     "string_list_data": [
       {
-        "value": "username",
+        "value": "username (en exportaciones antiguas)",
         "href": "https://instagram.com/username",
         "timestamp": 1234567890
       }

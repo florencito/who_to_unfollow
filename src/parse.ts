@@ -9,19 +9,30 @@ export function normalizeIGList(data: IGList): Set<string> {
   const usernames = new Set<string>();
   
   for (const row of data) {
+    let rawValue = '';
+    
     if (row.string_list_data && Array.isArray(row.string_list_data)) {
       for (const item of row.string_list_data) {
         if (item.value && typeof item.value === 'string') {
-          // Normalizar username: remover @, convertir a lowercase, trim
-          const username = item.value
-            .replace('@', '')
-            .toLowerCase()
-            .trim();
-          
-          if (username) {
-            usernames.add(username);
-          }
+          rawValue = item.value;
+          break;
         }
+      }
+    }
+    
+    if (!rawValue && row.title && typeof row.title === 'string') {
+      rawValue = row.title;
+    }
+    
+    if (rawValue) {
+      // Normalizar username: remover @, convertir a lowercase, trim
+      const username = rawValue
+        .replace('@', '')
+        .toLowerCase()
+        .trim();
+      
+      if (username) {
+        usernames.add(username);
       }
     }
   }

@@ -3,8 +3,9 @@
  */
 
 export type IGRow = {
+  title?: string;
   string_list_data?: Array<{ 
-    value: string; 
+    value?: string; 
     href?: string; 
     timestamp?: number; 
   }>;
